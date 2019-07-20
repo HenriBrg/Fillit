@@ -1,0 +1,35 @@
+Un tetromino est valide s'il a 6 connections
+
+          0100
+Exemple : 0100
+          0100
+          0100
+
+En connection, cela donnerai :
+
+1221 => La première case du tetromino touche 1 autre case
+     => La seconde case du tetromino touche 2 autre cases ...
+
+A cela s'ajoute les vérifications logiques :
+
+Carré 4x4
+Que des # ou .
+Nombre de ligne % 5
+...
+
+Tous les cas d'erreurs :
+
+1 - Cas d'erreur à gérer en protection
+- Open
+- Read
+- Close
+- Malloc
+- GetNextLine
+
+2 -
+
+3 - Contenu du fichier invalide si :
+- Si Taille du fichier < 16
+- Si Taille du fichier < (26 * 16) + 15 (pour les \n)
+
+... mais comment connaitre la taille du fichier tout en lisant une seule fois ?

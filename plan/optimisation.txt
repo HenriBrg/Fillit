@@ -1,0 +1,11 @@
+La taille MINIMALE du carré parfait peut être anticipée en calculant :
+size = racine carré (tetrominos * 4)
+
+size = largeur du côté du carré
+tetrominos = nombre de tetrominos
+Multiplication par 4 car chaque tetromino prend 4 cases
+
+Il est probable qu'il faille agrandir le carré mais au moins ca évite
+de faire des tests inutile avant, sur des carrés qu'on sait être trop petits
+
+-----------

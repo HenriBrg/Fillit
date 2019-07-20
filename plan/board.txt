@@ -1,0 +1,41 @@
+Pour le board, plusieurs possibilités, dont les suivantes :
+
+- Board en tableau d'int à deux dimensions
+- Board en tableau de string (donc deux dimensions)
+
+
+
+
+1 / Si tableau d'int, il faut stocker chaque tetriminos dans un tableau d'int aussi
+On aurait par exemple :
+
+          0 0 0 0
+Board :   0 0 0 0
+          0 0 0 0
+          0 0 0 0
+
+Avec un tetrimino en L par exemple :
+
+Tetrimino en L :  A 0
+                  A 0
+                  A A
+
+Tetrimino en Z :  B B 0
+                  0 B B
+
+2 / Si le board est un tableau de string, on peut stocker chaque tetrimino dans un tableau de string de 4x4 :
+
+Au final c'est pareil que si on passe par des integer
+
+          0 0 0 0 0
+Board :   0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 0 0
+          0 0 0 0 0
+
+Tetrimino en L :  A 0 0 0
+                  A 0 0 0
+                  A A 0 0
+                  0 0 0 0
+
+On va ensuite "calquer" l'array du tetrimino
