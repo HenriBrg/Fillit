@@ -1,18 +1,19 @@
 #include "../includes/fillit.h"
 
 /*
-** La fonction structurate() crée une structure t_tetri
-** 1 - Allocation mémoire
-** 2 - Converti le tableau de string (de # et .) en tableau d'int
-** 3 - Assignation du symbole
+** La fonction validate() valide ou non le contenu du fichier en controlant :
+** 1 - Que la size totale est bien divisible par 16
+** 2 - Que la taille est supérieure à 16 et inférieur à 16*26
+** 3 - Qu'on ne trouve que des # ou .
+** 4 - Que le nombre de lignes est valide (en particulier qu'il y a bien un seule \n entre les shapes)
 */
 
-static int validation(char *file, size_t size)
+static int validation(char *file, size_t size, int l)
 {
   int i;
 
   // Size % 16 (car les retour à la lig)
-  if (size % 16 != 0 || size < 16 || (size / 16) > 26 )
+  if (size % 16 != 0 || size < 16 || (size / 16) > 26)
     return (0);
   i = 0;
   // Si file contient autre chose que des # ou .
@@ -22,8 +23,17 @@ static int validation(char *file, size_t size)
       return (0);
     i++;
   }
+  if (l != (size / 16) - 1)
+    return (0);
   return (1);
 }
+
+/*
+** La fonction structurate() crée une structure t_tetri
+** 1 - Allocation mémoire
+** 2 - Converti le tableau de string (de # et .) en tableau d'int
+** 3 - Assignation du symbole
+*/
 
 t_tetri *structurate(char **tab, int sym)
 {
@@ -45,6 +55,41 @@ t_tetri *structurate(char **tab, int sym)
   return (tetri);
 }
 
+
+/*
+** La fonction connection() contrôle qu'il y ai bien 6 connections dans la shape
+** 1 - Vérification de la case en haut, en bas, à gauche puis enfin à droite
+*/
+
+static int connection(char *shape)
+{
+  int i;
+  int connect;
+
+  i = 0;
+  connect = 0;
+  while (i < 16)
+  {
+    if (shape[i] == '#')
+    {
+      // Check de la case en dessous (Ligne 123)
+      if ((i / 4) <= 2)
+        connect += (shape[i + 4] == '#') ? 1 : 0;
+      // Check de la case au dessus (Ligne 234)
+      if ((i / 4) >= 1)
+        connect += (shape[i - 4] == '#') ? 1 : 0;
+      // Check de la case à gauche
+      if ((i % 4) >= 1)
+        connect += (shape[i - 1] == '#') ? 1 : 0;
+      // Check de la case à droite
+      if ((i % 4) <= 2)
+        connect += (shape[i + 1] == '#') ? 1 : 0;
+    }
+    i++;
+  }
+  return (connect);
+}
+
 /*
 ** La fonction build() crée une la liste chainée
 ** 1 - Split par 16
@@ -56,7 +101,6 @@ t_tetri *structurate(char **tab, int sym)
 t_tetri *build(t_tetri *head, char *shape)
 {
   int i;
-  int x;
   char **tmp;
   char **tab;
   t_tetri *previous;
@@ -64,12 +108,15 @@ t_tetri *build(t_tetri *head, char *shape)
 
   i = 0;
   current = 0;
-  tab = ft_split_by_size(shape, 16);
+  if ((tab = ft_split_by_size(shape, 16)) == 0)
+    return (0);
   while (tab[i] != 0)
   {
-    x = 0;
+    if (connection(tab[i]) != 6 || ft_strlen(tab[i]) != 16)
+      return (0);
     previous = (current == 0) ? 0 : current;
-    tmp = ft_split_by_size(tab[i], 4);
+    if ((tmp = ft_split_by_size(tab[i], 4)) == 0)
+      return (0);
     if ((current = structurate(tmp, i + 1)) == 0)
       return (0);
     if (previous)
@@ -78,9 +125,6 @@ t_tetri *build(t_tetri *head, char *shape)
       head = current;
     i++;
   }
-  // Utile ou pas ?
-  ft_strdel(tmp);
-  ft_strdel(tab);
   return (head);
 }
 
@@ -92,23 +136,28 @@ t_tetri *build(t_tetri *head, char *shape)
 
 t_tetri *parse(t_tetri *head, char *filename)
 {
+  int l;
   int x;
   int fd;
   char *line;
   char *shape;
 
+  // TODO : controler qu'il y a bien UNE ligne de séparation entre les shapes
   if ((fd = open(filename, O_RDONLY)) == -1)
     return (0);
+  l = 0;
   while ((x = ft_get_next_line(fd, &line)) != 0)
   {
     if (x == -1 || (ft_strlen(line) != 4 && ft_strlen(line) != 0))
       return (0);
     else
       shape = ft_strjoin(shape, line);
+    if (*line == 0)
+      l++;
   }
   if (close(fd) == -1)
     return (0);
-  if ((validation(shape, ft_strlen(shape))))
+  if ((validation(shape, ft_strlen(shape), l)))
     head = build(head, shape);
   return (head);
 }

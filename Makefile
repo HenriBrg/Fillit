@@ -1,5 +1,5 @@
 NAME = fillit
-SRCS = srcs/main.c srcs/parser.c srcs/list.c
+SRCS = srcs/main.c srcs/parser.c srcs/list.c srcs/utils.c
 OBJS = ${SRCS:.c=.o}
 HEADER = -I ./includes/
 LIBS = -L. libft/libft.a

@@ -19,17 +19,16 @@ Nombre de ligne % 5
 
 Tous les cas d'erreurs :
 
-1 - Cas d'erreur à gérer en protection
+1 - Refus accès fichier / malloc
 - Open
 - Read
 - Close
 - Malloc
 - GetNextLine
 
-2 -
+2 - Contenu du fichier invalide :
+- Si la taille du string à la fin de GNL n'est pas divisible par 16
+- Si la taille du string  à la fin de GNL est supérieur à (26 * 16)
 
-3 - Contenu du fichier invalide si :
-- Si Taille du fichier < 16
-- Si Taille du fichier < (26 * 16) + 15 (pour les \n)
-
-... mais comment connaitre la taille du fichier tout en lisant une seule fois ?
+3 - Shape de chaque tetromino
+- Si un tetrimino n'a pas 6 connections
