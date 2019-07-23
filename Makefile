@@ -1,9 +1,12 @@
 NAME = fillit
-SRCS = srcs/main.c srcs/parser.c srcs/list.c srcs/utils.c srcs/solver.c \
-			 srcs/data.c
+SRCS = srcs/main.c \
+			 srcs/parser/parser.c srcs/parser/data.c \
+			 srcs/utils/list.c srcs/utils/utils.c \
+			 srcs/solver/solver.c
+
 OBJS = ${SRCS:.c=.o}
 HEADER = -I ./includes/
-LIBS = -L. libft/libft.a
+LIBS = -L. libft.a
 FLAGS = -Wall -Wextra -Werror
 
 ifndef VERBOSE
