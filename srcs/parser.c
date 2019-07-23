@@ -6,25 +6,24 @@
 ** 2 - Que la taille est supérieure à 16 et inférieur à 16*26
 ** 3 - Qu'on ne trouve que des # ou .
 ** 4 - Que le nombre de lignes est valide (en particulier qu'il y a bien un seule \n entre les shapes)
+** Pour le fun : on exit avec ft_putstr_exit, ce qui est plus simple que de return (0) dans chaque fonction
 */
 
 static int validation(char *file, size_t size, int l)
 {
   int i;
 
-  // Size % 16 (car les retour à la lig)
   if (size % 16 != 0 || size < 16 || (size / 16) > 26)
-    return (0);
+    ft_putstr_exit("Validation error\n", EXIT_FAILURE);
   i = 0;
-  // Si file contient autre chose que des # ou .
   while (file[i] != '\0')
   {
     if (file[i] != '#' && file[i] != '.')
-      return (0);
+      ft_putstr_exit("Validation error\n", EXIT_FAILURE);
     i++;
   }
   if (l != (size / 16) - 1)
-    return (0);
+    ft_putstr_exit("Validation error\n", EXIT_FAILURE);
   return (1);
 }
 
@@ -33,6 +32,7 @@ static int validation(char *file, size_t size, int l)
 ** 1 - Allocation mémoire
 ** 2 - Converti le tableau de string (de # et .) en tableau d'int
 ** 3 - Assignation du symbole
+** 4 - Calcul du perimètre de tetrimino (heigth & width)
 */
 
 t_tetri *structurate(char **tab, int sym)
@@ -42,7 +42,7 @@ t_tetri *structurate(char **tab, int sym)
   t_tetri *tetri;
 
   if ((tetri = malloc(sizeof(t_tetri))) == 0)
-    return (0);
+    ft_putstr_exit("Malloc error\n", EXIT_FAILURE);
   i = 0;
   while (i < 4)
   {
@@ -52,13 +52,19 @@ t_tetri *structurate(char **tab, int sym)
     i++;
   }
   tetri->symbol = sym;
+  measuring(tetri->shape, &tetri->heigth, &tetri->width);
+  tetri->compact = compact_shape(tetri->shape, tetri->heigth, tetri->width);
   return (tetri);
 }
-
 
 /*
 ** La fonction connection() contrôle qu'il y ai bien 6 connections dans la shape
 ** 1 - Vérification de la case en haut, en bas, à gauche puis enfin à droite
+** IF 1 - Check de la case en dessous (Ligne 123)
+** IF 2 - Check de la case au dessus (Ligne 234)
+** IF 3 - Check de la case à gauche
+** IF 4 - Check de la case à droite
+** Cas unique : si le tetri est de la forme d'un carré (2x2), il y a 8 connections
 */
 
 static int connection(char *shape)
@@ -72,21 +78,19 @@ static int connection(char *shape)
   {
     if (shape[i] == '#')
     {
-      // Check de la case en dessous (Ligne 123)
       if ((i / 4) <= 2)
         connect += (shape[i + 4] == '#') ? 1 : 0;
-      // Check de la case au dessus (Ligne 234)
       if ((i / 4) >= 1)
         connect += (shape[i - 4] == '#') ? 1 : 0;
-      // Check de la case à gauche
       if ((i % 4) >= 1)
         connect += (shape[i - 1] == '#') ? 1 : 0;
-      // Check de la case à droite
       if ((i % 4) <= 2)
         connect += (shape[i + 1] == '#') ? 1 : 0;
     }
     i++;
   }
+  if (connect == 8 && ft_stroccurs(shape, '#') == 4)
+    connect = 6;
   return (connect);
 }
 
@@ -109,16 +113,16 @@ t_tetri *build(t_tetri *head, char *shape)
   i = 0;
   current = 0;
   if ((tab = ft_split_by_size(shape, 16)) == 0)
-    return (0);
+    ft_putstr_exit("Split1 error\n", EXIT_FAILURE);
   while (tab[i] != 0)
   {
     if (connection(tab[i]) != 6 || ft_strlen(tab[i]) != 16)
-      return (0);
+      ft_putstr_exit("Connection || ft_strlen error\n", EXIT_FAILURE);
     previous = (current == 0) ? 0 : current;
     if ((tmp = ft_split_by_size(tab[i], 4)) == 0)
-      return (0);
+      ft_putstr_exit("Split2 error\n", EXIT_FAILURE);
     if ((current = structurate(tmp, i + 1)) == 0)
-      return (0);
+      ft_putstr_exit("Structurate error\n", EXIT_FAILURE);
     if (previous)
       previous->next = current;
     if (head == 0)
@@ -130,8 +134,9 @@ t_tetri *build(t_tetri *head, char *shape)
 
 /*
 ** La fonction parse() appel en boucle ft_get_next_line pour lire chaque ligne
-** 1 - A chaque ligne, appel de strjoin (TODO : optimiser ce script car trop d'appel à strjoin et penser à free)
+** 1 - A chaque ligne, appel de strjoin
 ** 2 - Contrôle de validité du string "shape"
+** TODO : optimiser ce script car trop d'appel à strjoin et aucun free n'est fait
 */
 
 t_tetri *parse(t_tetri *head, char *filename)
@@ -144,20 +149,20 @@ t_tetri *parse(t_tetri *head, char *filename)
 
   // TODO : controler qu'il y a bien UNE ligne de séparation entre les shapes
   if ((fd = open(filename, O_RDONLY)) == -1)
-    return (0);
+    ft_putstr_exit("Open error\n", EXIT_FAILURE);
   l = 0;
   while ((x = ft_get_next_line(fd, &line)) != 0)
   {
     if (x == -1 || (ft_strlen(line) != 4 && ft_strlen(line) != 0))
-      return (0);
+      ft_putstr_exit("GNL error\n", EXIT_FAILURE);
     else
       shape = ft_strjoin(shape, line);
     if (*line == 0)
       l++;
   }
   if (close(fd) == -1)
-    return (0);
-  if ((validation(shape, ft_strlen(shape), l)))
-    head = build(head, shape);
+    ft_putstr_exit("Close error\n", EXIT_FAILURE);
+  validation(shape, ft_strlen(shape), l);
+  head = build(head, shape);
   return (head);
 }

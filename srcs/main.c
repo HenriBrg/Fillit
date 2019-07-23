@@ -2,16 +2,12 @@
 
 int main(int ac, char **av)
 {
-  t_tetri *head;
+  t_tetri   *head;
+  int       **board;
 
-  if (ac != 2)
-    return (-1);
+  ac == 2 ? :ft_putstr_exit("Usage : ./fillit [] target_file\n", EXIT_FAILURE);
   head = 0;
-  if ((head = parse(head, av[1])) == 0)
-  {
-    ft_putstr("error\n");
-    return (-1);
-  }
-  show_full_list(head);
+  head = parse(head, av[1]);
+  board = extend(2);
   return (0);
 }

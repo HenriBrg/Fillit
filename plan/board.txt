@@ -1,10 +1,47 @@
+- Parcours du board de gauche à droite jusqu'à changer de ligne
+
+
+2 possibilités pour le calquage
+
+1er Choix - Avoir un index de position (cf. array d'int en 4x4) "head" dans la structure
+
+Exemple :
+....
+.###
+.#..
+....
+L'index de position est 5
+L'index correspond au premier # trouvé en parcourant de gauche à droite l'array d'int
+
+2ème Choix -
+
+
+
+
+
+-------------------------------------------------------------------------------
+Généralités :
+
+1 - La pose d'un tetrimino qui ne passe pas ne renvoie pas 0
+  Par contre, si toutes les positions de pose ont été testés et qu'aucune ne passe, on retourne 0
+
+
+2 - Il faut a chaque fois tester toutes les posibilités de position du tetrimino
+    (et pour optimiser : skiper la pose si on sait déja que ça passera pas)
+
+3 - Skiper la pose du tetri si on est sur une case differente d'un 0
+
+
+
+
+
+-------------------------------------------------------------------------------
+
+
 Pour le board, plusieurs possibilités, dont les suivantes :
 
 - Board en tableau d'int à deux dimensions
 - Board en tableau de string (donc deux dimensions)
-
-
-
 
 1 / Si tableau d'int, il faut stocker chaque tetriminos dans un tableau d'int aussi
 On aurait par exemple :

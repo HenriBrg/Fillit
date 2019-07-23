@@ -1,6 +1,27 @@
 #include "../includes/fillit.h"
 
-void show_4x4_str_array(char **tab)
+void  show_2D_square_int_array(int (*tab)[4], int size)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (i < size)
+    {
+      j = -1;
+      while (++j < size)
+      {
+        if (tab[i][j] != 0)
+          printf("%c", 64 + tab[i][j]);
+        else
+          printf("0");
+      }
+      printf("\n");
+      i++;
+    }
+}
+
+void  show_4x4_str_array(char **tab)
 {
     int i = 0;
     int a = 0;
@@ -11,4 +32,28 @@ void show_4x4_str_array(char **tab)
         printf("\n");
       a++;
     }
+}
+
+// A mettre dans la libft
+int  ft_stroccurs(char *str, char c)
+{
+  int i;
+  int x;
+
+  i = 0;
+  x = 0;
+  while (str[i] != '\0')
+  {
+    if (str[i] == c)
+      x++;
+    i++;
+  }
+  return (x);
+}
+
+// A mettre dans la libft
+void ft_putstr_exit(char *message, int status)
+{
+  ft_putstr(message);
+  exit(status);
 }
