@@ -1,30 +1,18 @@
-1/ PREVISION CARRE PARFAIT
+Optimisation déja faite :
 
-La taille MINIMALE du carré parfait peut être anticipée en calculant :
-size = racine carré (nombre de tetrominos * 4)
+- 1/ Iteration que sur les cases vide du board
+- 2/ Agencement optimisé des if comprenant des opérateurs &&
+- 3/ Prévision du carré parfait
 
-size = largeur du côté du carré
-Multiplication par 4 car chaque tetromino prend 4 cases
+  11 tetriminos sans prévision de taille : 5 sec
+  11 tetriminos avec prévision de taille : 5 sec ...
 
-Il est probable qu'il faille agrandir le carré mais au moins ca évite
-de faire des tests inutile avant, sur des carrés qu'on sait être trop petits
+  12 tetriminos sans prévision de taille : 25 sec
+  12 tetriminos avec prévision de taille : 25 sec ...
 
-On arrondi au supérieur si ce n'est pas une racine entière
+  Donc ça ne change rien
 
-Si on a 2 tetriminos
-size = square(8) => 3
-Tableau de taille 3x3
 
-Si on a 4 tetriminos
-size = square(16) => 4
-Tableau de taille 4x4
+--------------------------------------------------------------------------------
 
-------
-
-2/ OPTIMISER LES IF &&
-
-Optimiser les if comprenant des && (dans la position des n conditions)
-
-------
-
-3/ NE PAS FAIRE DE TEST SUR LES CASES NON VIDES
+TODO : Optimiser les && lors de la recherche des 4 zones dispo

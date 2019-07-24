@@ -9,9 +9,9 @@ HEADER = -I ./includes/
 LIBS = -L. libft.a
 FLAGS = -Wall -Wextra -Werror
 
-ifndef VERBOSE
-.SILENT:
-endif
+#ifndef VERBOSE
+#.SILENT:
+#endif
 
 all: $(NAME)
 

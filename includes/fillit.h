@@ -6,8 +6,9 @@
 #	include <string.h>
 #	include <stdio.h>
 # include <fcntl.h>
+# include <time.h>
 
-#include "./libft.h"
+# include "./libft.h"
 
 typedef struct  s_tetri
 {
@@ -29,11 +30,10 @@ typedef struct  s_tetri
 ** next = pointeur sur structure suivante
 */
 
+/*
+** Parser.c
+*/
 t_tetri   *parse(t_tetri *head, char *filename);
-void      show_tetri_shape(int shape[4][4]);
-void      show_full_list(t_tetri *head);
-int       get_list_size(t_tetri *head);
-int       **extend(int size);
 
 /*
 ** Utils.c
@@ -48,7 +48,6 @@ void      ft_putstr_exit(char *message, int status);
 ** Data.c
 */
 void      measuring(int shape[4][4], int *heigth, int *width);
-int       block_counter(t_tetri *tetri, int i, int j);
 int       **alloc_compact_shape(t_tetri *tetri, int i, int j);
 int       **compact_shape(t_tetri *tetri);
 void      fill_index_compact(t_tetri *tetri);
@@ -57,8 +56,12 @@ void      fill_index_compact(t_tetri *tetri);
 ** Solver.c
 */
 void      fillit(t_tetri *tetri);
-int       place_succeed(int **board, t_tetri *tetri, int x, int y);
-
-
+/*
+** List.c
+*/
+int       floorSqrt(int x);
+void      show_full_list(t_tetri *head);
+int       get_list_size(t_tetri *head);
+void      show_tetri_shape(int shape[4][4]);
 
 #endif

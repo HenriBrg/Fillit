@@ -43,7 +43,7 @@ void  measuring(int shape[4][4], int *heigth, int *width)
 ** 2 - Calcul de la width  (l)
 */
 
-int block_counter(t_tetri *tetri, int i, int j)
+static int block_counter(t_tetri *tetri, int i, int j)
 {
   int a;
   int b;

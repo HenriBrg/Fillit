@@ -102,7 +102,7 @@ static int connection(char *shape)
 ** 4 - Relie les block entre eux
 */
 
-t_tetri *build(t_tetri *head, char *shape)
+static t_tetri *build(t_tetri *head, char *shape)
 {
   int i;
   char **tmp;

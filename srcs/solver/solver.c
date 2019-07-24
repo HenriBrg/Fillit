@@ -5,7 +5,7 @@
 ** avec chaque case initialisée à 0
 */
 
-int **extend(int size)
+static int **extend(int size)
 {
   int i;
   int x;
@@ -26,7 +26,7 @@ int **extend(int size)
   return (board);
 }
 
-void delete_tetri(int **board, int size, int symbol)
+static void delete_tetri(int **board, int size, int symbol)
 {
   // Optimiser : Ne parcourir que les case à supprimer plutot que tout
   int x;
@@ -43,22 +43,22 @@ void delete_tetri(int **board, int size, int symbol)
 }
 /* La fonction place_succeed() vérifie depuis la position x/y dans board
 ** si les index du tableau indexC sont libres dans le board
-** 1 -
-** 2 -
+** 1 - Iteration sur les 4 lignes du tableau indexC
+** 2 - Vérification aux index du tableau dans le board
+** 3 - Si open = 4 places disponible, on intègre le tetrimino dans le board !
+** NOTE :  On test sur -1 car si on le faisait sur 0, au dela / hors du tableau ça serait vrai aussi !
 */
 
-int place_succeed(int **board, t_tetri *tetri, int x, int y)
+static int place_succeed(int **board, t_tetri *tetri, int x, int y)
 {
   int i;
   int open;
 
   i = -1;
   open = 0;
-  while (++i < 4) // 4 parcequ'on itère sur les 4 lignes d'indexC
-    if (board[x + tetri->indexC[i][0]][y + tetri->indexC[i][1]] == -1) // On test sur -1 car si on le faisait sur 0, au dela du tableau ça serait vrai aussi !
-      open++; // La place est libre :)
-  // printf("Places disponibles : %d\n", open);
-  // Si les 4 places sont libres
+  while (++i < 4)
+    if (board[x + tetri->indexC[i][0]][y + tetri->indexC[i][1]] == -1)
+      open++;
   if (open == 4)
   {
     i = -1;
@@ -70,31 +70,26 @@ int place_succeed(int **board, t_tetri *tetri, int x, int y)
 }
 
 
-int solve(int **board, t_tetri *tetri, int size)
+static int solve(int **board, t_tetri *tetri, int size)
 {
   int x;
   int y;
 
   if (tetri == NULL)
     return (1);
-
-  x = 0;
-  while (x <= size - tetri->heigth)
+  x = -1;
+  while (++x <= size - tetri->heigth) // Optimisation possible ici
   {
-    y = 0;
-    while (y <= size - tetri->width)
-    {
-      // place_succeed vérifie si c'est possible et si oui elle place, et retourne 1
-      if (place_succeed(board, tetri, x, y))
+    y = -1;
+    // OPTI POSSIBLE : checker chaque case d'index indexC via && plutot que tester les 4 à chaque fois
+    while (++y <= size - tetri->width) // Optimisation possible ici
+      if (board[x][y] == -1 && place_succeed(board, tetri, x, y))
       {
         if (solve(board, tetri->next, size))
           return (1);
         else
           delete_tetri(board, size, tetri->symbol);
       }
-      y++;
-    }
-    x++;
   }
   return (0);
 }
@@ -104,16 +99,27 @@ void fillit(t_tetri *tetri)
   int size;
   int **board;
 
-  // Opti : Trouver directement la taille idéale du board
-  size = 2;
+
+  printf("Fichier contenant %d tetriminos\n\n", get_list_size(tetri));
+
+  clock_t t;
+  t = clock();
+
+  size = floorSqrt(get_list_size(tetri) * 4);
   board = extend(size);
   while (!solve(board, tetri, size))
   {
-    // Free le board
     size++;
     board = extend(size);
   }
   show2DArray(board, size, size);
+
+  t = clock() - t;
+  double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
+
+  printf("La fonction fillit() a pris %f secondes pour s'exécuter\n", time_taken);
+
+
 }
 
 
