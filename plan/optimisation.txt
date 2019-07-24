@@ -1,3 +1,5 @@
+1/ PREVISION CARRE PARFAIT
+
 La taille MINIMALE du carré parfait peut être anticipée en calculant :
 size = racine carré (nombre de tetrominos * 4)
 
@@ -7,20 +9,22 @@ Multiplication par 4 car chaque tetromino prend 4 cases
 Il est probable qu'il faille agrandir le carré mais au moins ca évite
 de faire des tests inutile avant, sur des carrés qu'on sait être trop petits
 
------------
-
 On arrondi au supérieur si ce n'est pas une racine entière
 
-Si on 2 tetriminos
+Si on a 2 tetriminos
 size = square(8) => 3
 Tableau de taille 3x3
 
-Si on 4 tetriminos
+Si on a 4 tetriminos
 size = square(16) => 4
 Tableau de taille 4x4
 
+------
+
+2/ OPTIMISER LES IF &&
+
+Optimiser les if comprenant des && (dans la position des n conditions)
 
 ------
 
-Consserver une partie de l'agencement des tetriminos d'un carré de solution à l'autre ?
-En gros ne pas perdre les données lorsqu'on recrée un carré
+3/ NE PAS FAIRE DE TEST SUR LES CASES NON VIDES

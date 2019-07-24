@@ -73,7 +73,7 @@ int block_counter(t_tetri *tetri, int i, int j)
 ** Exemple sur un  :                  AAA
 **                                    0A0
 **
-* *On obtient le tab indexC suivant : 0,0
+** On obtient le tab indexC suivant : 0,0
 **                                    0,1
 **                                    0,2
 **                                    1,1
@@ -160,7 +160,6 @@ int **alloc_compact_shape(t_tetri *tetri, int i, int j)
 ** Le tableau qui compacte ce tetri commence en position (x : 1, y : 1)
 */
 
-// int **compact_shape(int shape[4][4], int heigth, int width)
 int **compact_shape(t_tetri *tetri)
 {
   int i;

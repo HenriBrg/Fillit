@@ -56,12 +56,7 @@ t_tetri *structurate(char **tab, int sym)
   measuring(tetri->shape, &tetri->heigth, &tetri->width);
   tetri->compact = compact_shape(tetri);
   fill_index_compact(tetri);
-  printf("%d, %d\n", tetri->indexC[0][0], tetri->indexC[0][1]);
-  printf("%d, %d\n", tetri->indexC[1][0], tetri->indexC[1][1]);
-  printf("%d, %d\n", tetri->indexC[2][0], tetri->indexC[2][1]);
-  printf("%d, %d\n", tetri->indexC[3][0], tetri->indexC[3][1]);
-
-  show2DArray(tetri->compact, tetri->heigth, tetri->width);
+  // show2DArray(tetri->compact, tetri->heigth, tetri->width);
   return (tetri);
 }
 

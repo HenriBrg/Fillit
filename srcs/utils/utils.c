@@ -11,10 +11,10 @@ void show2DArray(int **tab, int heigth, int width)
     j = -1;
     while (++j < width)
     {
-      if (tab[i][j] != 0)
+      if (tab[i][j] != -1)
         printf("%c", 64 + tab[i][j]);
       else
-        printf("0");
+        printf(".");
     }
     printf("\n");
   }

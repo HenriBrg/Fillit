@@ -53,4 +53,12 @@ int       **alloc_compact_shape(t_tetri *tetri, int i, int j);
 int       **compact_shape(t_tetri *tetri);
 void      fill_index_compact(t_tetri *tetri);
 
+/*
+** Solver.c
+*/
+void      fillit(t_tetri *tetri);
+int       place_succeed(int **board, t_tetri *tetri, int x, int y);
+
+
+
 #endif
