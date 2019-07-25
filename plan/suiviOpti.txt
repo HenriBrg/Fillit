@@ -1,0 +1,168 @@
+- 1/ Iteration que sur les cases vide du board
+- 2/ Agencement optimisé des if comprenant des opérateurs &&
+- 3/ Prévision du carré parfait
+- 4/ Faire 4 if && pour tester un à un les index disponible, si le premier
+     n'est pas dispo, il ne faut pas perdre du temps à cherche plus loin
+- 5/ Supprimer l'appel de fonction place_succeed
+- 6/ Operateur binaire pour savoir si la case est == -1 (autrement disponible)(gain de 1.5 secondes sur 15 tetri)
+- 7/ Se passer de la fonction delete_tetri pour la suppression du tetri dans le board (gain de 3 sec sur le 15 tetri)
+- 8/ Operateur binaire sur lors d'un tetri sur le board ()
+
+
+Idée : supprimer les listes chainées et tout mettre en tab[26]
+
+----------- Chrono Record
+
+15            : 9 secondes
+16            :
+17            :
+
+NB : Il est normal puisse être + rapide qu'un 13 soit plus lent qu'un 14
+     car la solution d'agencement peut être très différente
+
+
+
+Solution des 15 premiers tetriminos :
+
+AAAABCC.
+DFFFBCC.
+DFHHBLEE
+DDHJBLLE
+.NHJJJLE
+NNOOKKKI
+NMMOOGKI
+MM.GGGII
+
+----------- 26 Tetriminos - à ne JAMAIS toucher
+
+
+
+####
+....
+....
+....
+
+#...
+#...
+#...
+#...
+
+##..
+##..
+....
+....
+
+....
+#...
+#...
+##..
+
+..##
+...#
+...#
+....
+
+....
+.###
+.#..
+....
+
+....
+...#
+.###
+....
+
+..##
+..#.
+..#.
+....
+
+....
+...#
+...#
+..##
+
+....
+....
+.#..
+.###
+
+....
+###.
+..#.
+....
+
+..#.
+..##
+...#
+....
+
+....
+....
+.##.
+##..
+
+....
+.#..
+##..
+#...
+
+....
+....
+.##.
+..##
+
+....
+....
+.#..
+###.
+
+...#
+..##
+...#
+....
+
+#...
+##..
+#...
+....
+
+.###
+..#.
+....
+....
+
+....
+...#
+...#
+..##
+
+....
+....
+.#..
+.###
+
+....
+###.
+..#.
+....
+
+..#.
+..##
+...#
+....
+
+....
+....
+.##.
+##..
+
+....
+.#..
+##..
+#...
+
+....
+##..
+##..
+....

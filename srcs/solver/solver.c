@@ -27,21 +27,23 @@ static int **extend(int size)
   return (board);
 }
 
-static void delete_tetri(int **board, int size, int symbol)
-{
-  // Optimiser : Ne parcourir que les case à supprimer plutot que tout
-  int x;
-  int y;
+// static void delete_tetri(int **board, int size, int symbol)
+// {
+//   // Optimiser : Ne parcourir que les case à supprimer plutot que tout
+//   int x;
+//   int y;
+//
+//   x = -1;
+//   while (++x < size)
+//   {
+//     y = -1;
+//     while (++y < size)
+//       if (board[x][y] == symbol) // PASSER LE TEST EN OPE BINAIRE
+//         board[x][y] = -1;
+//   }
+// }
 
-  x = -1;
-  while (++x < size)
-  {
-    y = -1;
-    while (++y < size)
-      if (board[x][y] == symbol)
-        board[x][y] = -1;
-  }
-}
+
 /* La fonction place_succeed() vérifie depuis la position x/y dans board
 ** si les index du tableau indexC sont libres dans le board
 ** 1 - Iteration sur les 4 lignes du tableau indexC
@@ -74,6 +76,7 @@ static void delete_tetri(int **board, int size, int symbol)
 // TODO
 // Mettre ligne 59 61 dans le if de solve L89 avec des && à la suite
 
+int counter = 0;
 
 static int solve(int **board, t_tetri *tetri, int size)
 {
@@ -81,27 +84,32 @@ static int solve(int **board, t_tetri *tetri, int size)
   int x;
   int y;
 
+  counter++;
   if (tetri == NULL)
     return (1);
   x = -1;
-  while (++x <= size - tetri->heigth) // Optimisation possible ici
+  while (++x <= size - tetri->heigth) // Ajouter des conditions pour savoir direct si c'est utile d
   {
     y = -1;
-    // OPTI POSSIBLE : checker chaque case d'index indexC via && plutot que tester les 4 à chaque fois
     while (++y <= size - tetri->width) // Optimisation possible ici
       if (board[x][y] == -1 &&
-        (board[x + tetri->indexC[0][0]][y + tetri->indexC[0][1]] == -1) &&
-        (board[x + tetri->indexC[1][0]][y + tetri->indexC[1][1]] == -1) &&
-        (board[x + tetri->indexC[2][0]][y + tetri->indexC[2][1]] == -1) &&
-        (board[x + tetri->indexC[3][0]][y + tetri->indexC[3][1]] == -1))
+      (board[x + tetri->indexC[0][0]][y + tetri->indexC[0][1]] == -1) &&
+      (board[x + tetri->indexC[1][0]][y + tetri->indexC[1][1]] == -1) &&
+      (board[x + tetri->indexC[2][0]][y + tetri->indexC[2][1]] == -1) &&
+      (board[x + tetri->indexC[3][0]][y + tetri->indexC[3][1]] == -1))
       {
+        // Je remplis ici
         a = -1;
         while (++a < 4)
           board[x + tetri->indexC[a][0]][y + tetri->indexC[a][1]] = tetri->symbol;
         if (solve(board, tetri->next, size))
           return (1);
         else
-          delete_tetri(board, size, tetri->symbol);
+        {
+          a = -1;
+          while (++a < 4)
+            board[x + tetri->indexC[a][0]][y + tetri->indexC[a][1]] = -1;
+        }
       }
   }
   return (0);
@@ -121,18 +129,13 @@ void fillit(t_tetri *tetri)
   size = floorSqrt(get_list_size(tetri) * 4);
   board = extend(size);
   while (!solve(board, tetri, size))
-  {
-    size++;
-    board = extend(size);
-  }
+    board = extend(++size);
   show2DArray(board, size, size);
 
   t = clock() - t;
   double time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
-
+  printf("La fonctions solve a été appelée %d fois\n", counter);
   printf("La fonction fillit() a pris %f secondes pour s'exécuter\n", time_taken);
-
-
 }
 
 
@@ -142,5 +145,15 @@ show2DArray(board, 3, 3);
 (void)tetri;
 place_succeed(board, tetri, 0, 0);
 show2DArray(board, 3, 3);
+
+static int binaryCmp(int **board, t_tetri *tetri, int x, int y)
+{
+  if (((board[x + tetri->indexC[0][0]][y + tetri->indexC[0][1]] - -1) |
+  (board[x + tetri->indexC[1][0]][y + tetri->indexC[1][1]] - -1) |
+  (board[x + tetri->indexC[2][0]][y + tetri->indexC[2][1]] - -1) |
+  (board[x + tetri->indexC[3][0]][y + tetri->indexC[3][1]] - -1)) == 0)
+    return (1);
+  return (0);
+}
 
 */

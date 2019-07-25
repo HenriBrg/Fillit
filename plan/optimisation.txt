@@ -16,6 +16,8 @@ Optimisation déja faite :
 
 - 5/ Supprimer l'appel de fonction place_succeed
 
+- 6/ Operateur binaires pour tester si case libre == -1
+
 
 --------------------------------------------------------------------------------
 

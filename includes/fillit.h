@@ -17,7 +17,7 @@ typedef struct  s_tetri
   int                 width;
   int                 **compact;
   int                 indexC[4][2];
-  int                 shape[4][4];
+  int                 shape[4][4]; // Supprimer après le parsing ?
   char                symbol;
   struct s_tetri  *next;
 }               t_tetri;
@@ -28,6 +28,7 @@ typedef struct  s_tetri
 ** shape = tableau d'int copié depuis le fichier source .fillit
 ** symbol = int incrémenté pour différencier chaque tetrimino
 ** next = pointeur sur structure suivante
+** indexC = 4 index où se trouve le block dans l'array **compact, clé de voute du programme
 */
 
 /*
@@ -63,5 +64,6 @@ int       floorSqrt(int x);
 void      show_full_list(t_tetri *head);
 int       get_list_size(t_tetri *head);
 void      show_tetri_shape(int shape[4][4]);
+void      free_2D_int_array(int **array, int heigth, int width);
 
 #endif
