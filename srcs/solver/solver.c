@@ -11,6 +11,7 @@ static int **extend(int size)
   int x;
   int **board;
 
+
   if ((board = malloc(sizeof(int*) * size)) == 0)
     ft_putstr_exit("Malloc error\n", EXIT_FAILURE);
   i = 0;
@@ -49,29 +50,34 @@ static void delete_tetri(int **board, int size, int symbol)
 ** NOTE :  On test sur -1 car si on le faisait sur 0, au dela / hors du tableau ça serait vrai aussi !
 */
 
-static int place_succeed(int **board, t_tetri *tetri, int x, int y)
-{
-  int i;
-  int open;
+// static int place_succeed(int **board, t_tetri *tetri, int x, int y)
+// {
+//   int i;
+//   int open;
+//
+//    i = -1;
+//    open = 0;
+//    while (++i < 4)
+//      if (board[x + tetri->indexC[i][0]][y + tetri->indexC[i][1]] == -1)
+//        open++;
+//
+//    if (open == 4)
+//    {
+//   i = -1;
+//   while (++i < 4)
+//     board[x + tetri->indexC[i][0]][y + tetri->indexC[i][1]] = tetri->symbol;
+//   return (1);
+//   }
+//   return (0);
+// }
 
-  i = -1;
-  open = 0;
-  while (++i < 4)
-    if (board[x + tetri->indexC[i][0]][y + tetri->indexC[i][1]] == -1)
-      open++;
-  if (open == 4)
-  {
-    i = -1;
-    while (++i < 4)
-      board[x + tetri->indexC[i][0]][y + tetri->indexC[i][1]] = tetri->symbol;
-    return (1);
-  }
-  return (0);
-}
+// TODO
+// Mettre ligne 59 61 dans le if de solve L89 avec des && à la suite
 
 
 static int solve(int **board, t_tetri *tetri, int size)
 {
+  int a;
   int x;
   int y;
 
@@ -83,8 +89,15 @@ static int solve(int **board, t_tetri *tetri, int size)
     y = -1;
     // OPTI POSSIBLE : checker chaque case d'index indexC via && plutot que tester les 4 à chaque fois
     while (++y <= size - tetri->width) // Optimisation possible ici
-      if (board[x][y] == -1 && place_succeed(board, tetri, x, y))
+      if (board[x][y] == -1 &&
+        (board[x + tetri->indexC[0][0]][y + tetri->indexC[0][1]] == -1) &&
+        (board[x + tetri->indexC[1][0]][y + tetri->indexC[1][1]] == -1) &&
+        (board[x + tetri->indexC[2][0]][y + tetri->indexC[2][1]] == -1) &&
+        (board[x + tetri->indexC[3][0]][y + tetri->indexC[3][1]] == -1))
       {
+        a = -1;
+        while (++a < 4)
+          board[x + tetri->indexC[a][0]][y + tetri->indexC[a][1]] = tetri->symbol;
         if (solve(board, tetri->next, size))
           return (1);
         else
