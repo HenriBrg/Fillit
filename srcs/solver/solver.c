@@ -73,10 +73,31 @@ static int **extend(int size)
 //   return (0);
 // }
 
-// TODO
-// Mettre ligne 59 61 dans le if de solve L89 avec des && à la suite
+//
+// void get_first_empty_space(int **board, int size, int *x, int *y)
+// {
+//   int i;
+//   int j;
+//
+//   i = -1;
+//   while (++i < size)
+//   {
+//     j = -1;
+//     while (++j < size)
+//       if (board[i][j] == -1)
+//       {
+//         *x = i;
+//         *y = j;
+//         return ;
+//       }
+//   }
+//   *x = 0;
+//   *y = 0;
+// }
 
-int counter = 0;
+
+// int counter = 0;
+// counter++;
 
 static int solve(int **board, t_tetri *tetri, int size)
 {
@@ -84,26 +105,26 @@ static int solve(int **board, t_tetri *tetri, int size)
   int x;
   int y;
 
-  counter++;
   if (tetri == NULL)
     return (1);
   x = -1;
-  while (++x <= size - tetri->heigth) // Ajouter des conditions pour savoir direct si c'est utile d
+  while (++x <= size - tetri->heigth)
   {
     y = -1;
-    while (++y <= size - tetri->width) // Optimisation possible ici
+    while (++y <= size - tetri->width)
       if (board[x][y] == -1 &&
       (board[x + tetri->indexC[0][0]][y + tetri->indexC[0][1]] == -1) &&
       (board[x + tetri->indexC[1][0]][y + tetri->indexC[1][1]] == -1) &&
       (board[x + tetri->indexC[2][0]][y + tetri->indexC[2][1]] == -1) &&
       (board[x + tetri->indexC[3][0]][y + tetri->indexC[3][1]] == -1))
       {
-        // Je remplis ici
         a = -1;
         while (++a < 4)
           board[x + tetri->indexC[a][0]][y + tetri->indexC[a][1]] = tetri->symbol;
         if (solve(board, tetri->next, size))
+        {
           return (1);
+        }
         else
         {
           a = -1;
@@ -114,6 +135,8 @@ static int solve(int **board, t_tetri *tetri, int size)
   }
   return (0);
 }
+
+// printf("On pose %c depuis l'index x = %d et y = %d et board size%d\n",  64 + tetri->symbol, x, y, size);
 
 void fillit(t_tetri *tetri)
 {
