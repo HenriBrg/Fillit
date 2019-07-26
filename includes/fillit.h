@@ -17,7 +17,7 @@ typedef struct  s_tetri
   int                 width;
   int                 **compact;
   int                 indexC[4][2];
-  int                 shape[4][4]; // Supprimer après le parsing ?
+  int                 shape[4][4];
   char                symbol;
   struct s_tetri  *next;
 }               t_tetri;

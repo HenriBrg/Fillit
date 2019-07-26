@@ -1,5 +1,6 @@
 #include "../../includes/fillit.h"
 
+// A mettre dans libft
 void show2DArray(int **tab, int heigth, int width)
 {
   int i;

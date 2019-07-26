@@ -1,3 +1,11 @@
+Utiliser des bitfields
+
+--------
+
+Fillit Checker : https://github.com/anisg/fillit_checker
+
+--------
+
 - 1/ Iteration que sur les cases vide du board
 - 2/ Agencement optimisé des if comprenant des opérateurs &&
 - 3/ Prévision du carré parfait

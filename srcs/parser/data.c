@@ -106,6 +106,7 @@ void fill_index_compact(t_tetri *tetri)
 ** La fonction alloc_compact_shape() intervient lorsque l'on a trouve la zone
 ** qui "compact" la shape du tetrimino
 ** On retourne l'array d'int compact[heigth][width] avec les cases correctement remplies
+** Après cette fonction on rempli l'array avec fill_index_compact
 */
 
 int **alloc_compact_shape(t_tetri *tetri, int i, int j)

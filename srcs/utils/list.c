@@ -1,19 +1,5 @@
 #include "../../includes/fillit.h"
 
-// void free_2D_int_array(int **array, int heigth, int width)
-// {
-//   int i;
-//   int j;
-//
-//   i = -1;
-//   while (++i < heigth)
-//   {
-//     j = -1;
-//     while (++j < width)
-//       free(array[i][j]);
-//   }
-// }
-
 void show_tetri_shape(int shape[4][4])
 {
   int i;
@@ -33,6 +19,7 @@ void show_tetri_shape(int shape[4][4])
   }
 }
 
+// A mettre dans libft
 int get_list_size(t_tetri *head)
 {
     int count;
