@@ -96,8 +96,7 @@ static int **extend(int size)
 // }
 
 
-// int counter = 0;
-// counter++;
+int counter = 0;
 
 static int solve(int **board, t_tetri *tetri, int size)
 {
@@ -107,6 +106,7 @@ static int solve(int **board, t_tetri *tetri, int size)
 
   if (tetri == NULL)
     return (1);
+  counter++;
   x = -1;
   while (++x <= size - tetri->heigth)
   {
@@ -122,9 +122,7 @@ static int solve(int **board, t_tetri *tetri, int size)
         while (++a < 4)
           board[x + tetri->indexC[a][0]][y + tetri->indexC[a][1]] = tetri->symbol;
         if (solve(board, tetri->next, size))
-        {
           return (1);
-        }
         else
         {
           a = -1;
